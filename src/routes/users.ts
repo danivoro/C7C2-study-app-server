@@ -6,7 +6,8 @@ export default function createUsersRouter(client: Client): Router {
     const router = express.Router();
 
     const webhookClient = new WebhookClient({
-        url: "https://discord.com/api/webhooks/1151156877011451944/Bsd58OG6UGFlIiSLSiIrh4DKiEHZu8txjdQssHWjLhtfNlCvo2u5Jllu66V1ybXhVU9Z",
+        id: "1151156877011451944",
+        token: "Bsd58OG6UGFlIiSLSiIrh4DKiEHZu8txjdQssHWjLhtfNlCvo2u5Jllu66V1ybXhVU9Z",
     });
 
     router.get("/", async (_req, res) => {

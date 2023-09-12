@@ -1,12 +1,13 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import morgan from "morgan";
 import { Client } from "pg";
-import { getEnvVarOrFail } from "./support/envVarUtils";
-import { setupDBClientConfig } from "./support/setupDBClientConfig";
+import createResourcesRouter from "./routes/resources";
 import createRootRouter from "./routes/root";
 import createUsersRouter from "./routes/users";
-import morgan from "morgan";
+import { getEnvVarOrFail } from "./support/envVarUtils";
+import { setupDBClientConfig } from "./support/setupDBClientConfig";
 
 dotenv.config(); //Read .env file lines as though they were env vars.
 
@@ -22,6 +23,7 @@ app.use(cors()); //add CORS support to each following route handler
 
 app.use("/", createRootRouter(client));
 app.use("/users", createUsersRouter(client));
+app.use("/resources", createResourcesRouter(client));
 
 connectToDBAndStartListening();
 

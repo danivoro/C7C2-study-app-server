@@ -17,10 +17,11 @@ export default function createUsersRouter(client: Client): Router {
     router.post("/", async (req, res) => {
         try {
             const { user_name, is_faculty } = req.body;
-            const text = "INSERT INTO users(name, is_faculty) VALUES($1, $2)";
+            const text =
+                "INSERT INTO users(name, is_faculty) VALUES($1, $2) RETURNING *";
             const values = [user_name, is_faculty];
             const response = await client.query(text, values);
-            res.status(200).json(response);
+            res.status(200).json(response.rows);
         } catch (err) {
             console.error(err);
         }

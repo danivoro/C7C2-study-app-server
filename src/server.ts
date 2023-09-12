@@ -4,6 +4,7 @@ import express from "express";
 import { Client } from "pg";
 import { getEnvVarOrFail } from "./support/envVarUtils";
 import { setupDBClientConfig } from "./support/setupDBClientConfig";
+import createRootRouter from "./routes/root";
 
 dotenv.config(); //Read .env file lines as though they were env vars.
 
@@ -15,6 +16,8 @@ const app = express();
 
 app.use(express.json()); //add JSON body parser to each following route handler
 app.use(cors()); //add CORS support to each following route handler
+
+app.use("/", createRootRouter(client));
 
 app.get("/", async (_req, res) => {
     res.json({ msg: "Hello! There's nothing interesting for GET /" });

@@ -20,6 +20,7 @@ app.use(express.json()); //add JSON body parser to each following route handler
 app.use(cors()); //add CORS support to each following route handler
 
 app.use("/", createRootRouter(client));
+app.use("/users", createRootRouter(client));
 
 app.get("/", async (_req, res) => {
     res.json({ msg: "Hello! There's nothing interesting for GET /" });

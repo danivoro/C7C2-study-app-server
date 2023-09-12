@@ -1,10 +1,13 @@
 import express, { Router } from "express";
 import { Client } from "pg";
+import { EmbedBuilder, WebhookClient } from "discord.js";
 
 export default function createUsersRouter(client: Client): Router {
     const router = express.Router();
 
-    const { EmbedBuilder, webhookClient } = require("discord.js");
+    const webhookClient = new WebhookClient({
+        url: "https://discord.com/api/webhooks/1151156877011451944/Bsd58OG6UGFlIiSLSiIrh4DKiEHZu8txjdQssHWjLhtfNlCvo2u5Jllu66V1ybXhVU9Z",
+    });
 
     router.get("/", async (_req, res) => {
         try {
@@ -30,13 +33,14 @@ export default function createUsersRouter(client: Client): Router {
                 .setColor(0x00ffff);
 
             webhookClient.send({
-                content: response.rows,
+                content: JSON.stringify(response.rows),
                 username: user_name,
                 avatarURL: "https://i.imgur.com/AfFp7pu.png",
                 embeds: [embed],
             });
         } catch (err) {
             console.error(err);
+            res.status(500).json({ error: "Internal server error" });
         }
     });
 

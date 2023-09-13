@@ -6,7 +6,7 @@ export default function createResourcesRouter(client: Client): Router {
     const router = express.Router();
 
     const hook = new Webhook(
-        "https://discord.com/api/webhooks/1151156877011451944/Bsd58OG6UGFlIiSLSiIrh4DKiEHZu8txjdQssHWjLhtfNlCvo2u5Jllu66V1ybXhVU9Z"
+        "https://discord.com/api/webhooks/1151074752396529684/HLquClzlQm5eu9H3c0YDjVgg4bD0WzP0dwI8n2JguKuT8h3iadG_TkI6fCxkEar873Vy"
     );
 
     router.get("/", async (_req, res) => {
@@ -49,7 +49,7 @@ export default function createResourcesRouter(client: Client): Router {
             res.status(200).json(response.rows);
 
             const embed = new MessageBuilder()
-                .setTitle("New Resource Added!")
+                .setTitle("New Resource Added: " + resource_name)
                 .setColor(0x00ffff)
                 .setAuthor(author_name)
                 .setDescription(description);

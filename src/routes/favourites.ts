@@ -17,7 +17,8 @@ export default function createFavouritesRouter(client: Client): Router {
     router.get("/:id", async (req, res) => {
         try {
             const { id } = req.params;
-            const text = "SELECT * FROM favourites WHERE user_id = $1";
+            const text =
+                "SELECT resources.* FROM favourites JOIN resources ON favourites.resource_id = resources.resource_id WHERE favourites.user_id = $1;";
             const values = [id];
             const result = await client.query(text, values);
             res.status(200).json(result.rows);

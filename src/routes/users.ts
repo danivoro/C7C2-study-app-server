@@ -27,6 +27,27 @@ export default function createUsersRouter(client: Client): Router {
         }
     });
 
+    router.delete("/:id", async (req, res) => {
+        try {
+            const { id } = req.params;
+            const deleteResourcesQuery =
+                "DELETE FROM resources WHERE user_id = $1";
+            const deleteResourcesValues = [id];
+            await client.query(deleteResourcesQuery, deleteResourcesValues);
+
+            const deleteUserQuery = "DELETE FROM users WHERE user_id = $1";
+            const deleteUserValues = [id];
+            const result = await client.query(
+                deleteUserQuery,
+                deleteUserValues
+            );
+            res.status(200).json(result.rows);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    });
+
     router.post("/", async (req, res) => {
         try {
             const { user_name, is_faculty } = req.body;

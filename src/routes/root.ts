@@ -8,7 +8,9 @@ export default function createRootRouter(client: Client): Router {
     // Create a function to perform the self-request
     const selfRequest = async () => {
         try {
-            const response = await axios.get("http://localhost:4000/");
+            const response = await axios.get(
+                "https://c7c2-study-app.onrender.com/"
+            );
             if (response.status === 200) {
                 console.log("Self-request successful");
             } else {

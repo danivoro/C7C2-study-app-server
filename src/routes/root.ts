@@ -22,8 +22,29 @@ export default function createRootRouter(client: Client): Router {
         }
     };
 
+    const requestToImageApi = async () => {
+        try {
+            const response = await axios.get(
+                "https://get-link-thumbnail.onrender.com/"
+            );
+            if (response.status === 200) {
+                console.log("Request to preview-api successful");
+            } else {
+                console.error(
+                    "Request to image api failed with status code",
+                    response.status
+                );
+            }
+        } catch (error) {
+            console.error("Request to image api failed with error", error);
+        }
+    };
+
     const selfRequestInterval = setInterval(selfRequest, 600000);
     selfRequestInterval;
+
+    const requestToImageApiInterval = setInterval(requestToImageApi, 600000);
+    requestToImageApiInterval;
 
     router.get("/", async (_req, res) => {
         res.json({ msg: "Hello! There's nothing interesting for GET /" });

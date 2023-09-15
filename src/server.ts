@@ -17,7 +17,7 @@ const client = new Client(dbClientConfig);
 //Configure express routes
 const app = express();
 
-app.use(morgan("tiny"));
+app.use(morgan("common"));
 app.use(express.json()); //add JSON body parser to each following route handler
 app.use(cors()); //add CORS support to each following route handler
 

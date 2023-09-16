@@ -74,6 +74,24 @@ export default function createResourcesRouter(client: Client): Router {
         }
     });
 
+    router.delete("/:id", async (req, res) => {
+        try {
+            const { id } = req.params;
+            const deleteResourcesQuery =
+                "DELETE FROM resources WHERE user_id = $1";
+            const deleteResourcesValues = [id];
+            const result = await client.query(
+                deleteResourcesQuery,
+                deleteResourcesValues
+            );
+
+            res.status(200).json(result.rows);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    });
+
     router.put("/:id", async (req, res) => {
         try {
             const { id } = req.params;

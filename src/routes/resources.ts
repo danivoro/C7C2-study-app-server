@@ -52,7 +52,7 @@ export default function createResourcesRouter(client: Client): Router {
                 .setTitle("New Resource Added: " + resource_name)
                 .setColor(0x00ffff)
                 .setAuthor(author_name)
-                .setDescription(description);
+                .setDescription(`${description} ${url}`);
 
             hook.send(embed);
         } catch (err) {
@@ -77,9 +77,15 @@ export default function createResourcesRouter(client: Client): Router {
     router.delete("/:id", async (req, res) => {
         try {
             const { id } = req.params;
+            const deleteFavouritesQuery =
+                "DELETE FROM favourites WHERE resource_id = $1";
+            const deleteFavouritesValues = [id];
+
+            await client.query(deleteFavouritesQuery, deleteFavouritesValues);
             const deleteResourcesQuery =
                 "DELETE FROM resources WHERE resource_id = $1";
             const deleteResourcesValues = [id];
+
             const result = await client.query(
                 deleteResourcesQuery,
                 deleteResourcesValues

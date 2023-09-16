@@ -78,7 +78,7 @@ export default function createResourcesRouter(client: Client): Router {
         try {
             const { id } = req.params;
             const deleteResourcesQuery =
-                "DELETE FROM resources WHERE user_id = $1";
+                "DELETE FROM resources WHERE resource_id = $1";
             const deleteResourcesValues = [id];
             const result = await client.query(
                 deleteResourcesQuery,

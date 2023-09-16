@@ -28,6 +28,24 @@ export default function createFavouritesRouter(client: Client): Router {
         }
     });
 
+    router.delete("/:id", async (req, res) => {
+        try {
+            const { id } = req.params;
+            const deleteResourcesQuery =
+                "DELETE FROM favourites WHERE resource_id = $1";
+            const deleteResourcesValues = [id];
+            const result = await client.query(
+                deleteResourcesQuery,
+                deleteResourcesValues
+            );
+
+            res.status(200).json(result.rows);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    });
+
     router.post("/", async (req, res) => {
         try {
             const { resource_id, user_id } = req.body;

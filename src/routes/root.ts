@@ -5,7 +5,7 @@ import axios from "axios";
 export default function createRootRouter(client: Client): Router {
     const router = express.Router();
 
-    // Create a function to perform the self-request
+    // Perform the self-request
     const selfRequest = async () => {
         try {
             const response = await axios.get(
@@ -24,6 +24,7 @@ export default function createRootRouter(client: Client): Router {
         }
     };
 
+    // Perform a request to the Thumbnail API
     const requestToImageApi = async () => {
         try {
             const response = await axios.get(

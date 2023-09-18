@@ -33,7 +33,7 @@ export default function createResourcesRouter(client: Client): Router {
                 author_name,
             } = req.body;
             const text =
-                "INSERT INTO resources(name, url, description, content_type, stage, user_id, recommendation_type, reason, author) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+                "INSERT INTO resources(name, url, description, content_type, stage, user_id, recommendation_type, reason, author) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
             const values = [
                 resource_name,
                 url,

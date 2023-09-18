@@ -9,6 +9,7 @@ import createUsersRouter from "./routes/users";
 import { getEnvVarOrFail } from "./support/envVarUtils";
 import { setupDBClientConfig } from "./support/setupDBClientConfig";
 import createFavouritesRouter from "./routes/favourites";
+import createTagsRouter from "./routes/tags";
 
 dotenv.config(); //Read .env file lines as though they were env vars.
 
@@ -26,6 +27,7 @@ app.use("/", createRootRouter(client));
 app.use("/users", createUsersRouter(client));
 app.use("/resources", createResourcesRouter(client));
 app.use("/favourites", createFavouritesRouter(client));
+app.use("/tags", createTagsRouter(client));
 
 connectToDBAndStartListening();
 

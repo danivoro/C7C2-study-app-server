@@ -91,21 +91,25 @@ export default function createResourcesRouter(client: Client): Router {
     router.delete("/:id", async (req, res) => {
         try {
             const { id } = req.params;
+
+            const deleteTagsQuery = "DELETE FROM tags WHERE resource_id = $1";
+            const deleteTagsValues = [id];
+
             const deleteFavouritesQuery =
                 "DELETE FROM favourites WHERE resource_id = $1";
             const deleteFavouritesValues = [id];
 
-            await client.query(deleteFavouritesQuery, deleteFavouritesValues);
             const deleteResourcesQuery =
                 "DELETE FROM resources WHERE resource_id = $1";
             const deleteResourcesValues = [id];
 
-            const result = await client.query(
-                deleteResourcesQuery,
-                deleteResourcesValues
-            );
+            await client.query(deleteTagsQuery, deleteTagsValues);
+            await client.query(deleteFavouritesQuery, deleteFavouritesValues);
+            await client.query(deleteResourcesQuery, deleteResourcesValues);
 
-            res.status(200).json(result.rows);
+            res.status(200).json({
+                message: "Resource and related data deleted successfully",
+            });
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: "Internal server error" });

@@ -16,12 +16,15 @@ const app = express();
 
 import { Server } from "socket.io";
 import * as http from "http";
+import { configureServerActions } from "./configureServerActions";
 const overallServer = http.createServer(app);
 const io = new Server(overallServer, {
     cors: {
         origin: "*",
     },
 });
+
+configureServerActions(io);
 
 dotenv.config(); //Read .env file lines as though they were env vars.
 
@@ -48,7 +51,7 @@ async function connectToDBAndStartListening() {
     console.log("Connected to db!");
 
     const port = getEnvVarOrFail("PORT");
-    app.listen(port, () => {
+    overallServer.listen(port, () => {
         console.log(
             `Server started listening for HTTP requests on port ${port}.  Let's go!`
         );

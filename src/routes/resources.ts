@@ -32,6 +32,21 @@ export default function createResourcesRouter(client: Client): Router {
                 reason,
                 author_name,
             } = req.body;
+
+            const checkDuplicateQuery =
+                "SELECT * FROM resources WHERE url = $1";
+            const checkDuplicateValues = [url];
+            const duplicateCheckResult = await client.query(
+                checkDuplicateQuery,
+                checkDuplicateValues
+            );
+
+            if (duplicateCheckResult.rows.length > 0) {
+                return res.status(400).json({
+                    error: "Resource with the same URL already exists",
+                });
+            }
+
             const text =
                 "INSERT INTO resources(name, url, description, content_type, stage, user_id, recommendation_type, reason, author) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
             const values = [

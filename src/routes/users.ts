@@ -61,7 +61,7 @@ export default function createUsersRouter(
             const values = [user_name, is_faculty];
             const response = await client.query(text, values);
 
-            io.emit("user added", response.rows[0]);
+            io.emit("user", response.rows[0]);
 
             res.status(200).json(response.rows);
         } catch (err) {

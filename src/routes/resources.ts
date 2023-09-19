@@ -66,7 +66,7 @@ export default function createResourcesRouter(
             ];
 
             const response = await client.query(text, values);
-            io.emit("resource-add", response.rows[0]);
+            io.emit("resource", response.rows[0]);
             res.status(200).json(response.rows);
 
             const embed = new MessageBuilder()
@@ -117,7 +117,7 @@ export default function createResourcesRouter(
                 deleteResourcesValues
             );
 
-            io.emit("resource-delete", response.rows[0]);
+            io.emit("resource", response.rows[0]);
 
             res.status(200).json({
                 message: "Resource and related data deleted successfully",

@@ -11,21 +11,32 @@ import { setupDBClientConfig } from "./support/setupDBClientConfig";
 import createFavouritesRouter from "./routes/favourites";
 import createTagsRouter from "./routes/tags";
 
+const app = express();
+//set up socket.io - boilerplate (same each time)
+
+import { Server } from "socket.io";
+const http = require("http");
+const overallServer = http.createServer(app);
+const io = new Server(overallServer, {
+    cors: {
+        origin: "*",
+    },
+});
+
 dotenv.config(); //Read .env file lines as though they were env vars.
 
 const dbClientConfig = setupDBClientConfig();
 const client = new Client(dbClientConfig);
 
 //Configure express routes
-const app = express();
 
 app.use(morgan("common"));
 app.use(express.json()); //add JSON body parser to each following route handler
 app.use(cors()); //add CORS support to each following route handler
 
 app.use("/", createRootRouter(client));
-app.use("/users", createUsersRouter(client));
-app.use("/resources", createResourcesRouter(client));
+app.use("/users", createUsersRouter(client, io));
+app.use("/resources", createResourcesRouter(client, io));
 app.use("/favourites", createFavouritesRouter(client));
 app.use("/tags", createTagsRouter(client));
 

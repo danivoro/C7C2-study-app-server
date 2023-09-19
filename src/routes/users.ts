@@ -1,7 +1,12 @@
 import express, { Router } from "express";
 import { Client } from "pg";
+import { Server } from "socket.io";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
-export default function createUsersRouter(client: Client): Router {
+export default function createUsersRouter(
+    client: Client,
+    io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+): Router {
     const router = express.Router();
 
     router.get("/", async (_req, res) => {
@@ -55,6 +60,9 @@ export default function createUsersRouter(client: Client): Router {
                 "INSERT INTO users(name, is_faculty) VALUES($1, $2) RETURNING *";
             const values = [user_name, is_faculty];
             const response = await client.query(text, values);
+
+            io.emit("user added", response.rows[0]);
+
             res.status(200).json(response.rows);
         } catch (err) {
             console.error(err);

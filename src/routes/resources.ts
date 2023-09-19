@@ -1,8 +1,13 @@
 import express, { Router } from "express";
 import { Client } from "pg";
 import { Webhook, MessageBuilder } from "discord-webhook-node";
+import { Server } from "socket.io";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
-export default function createResourcesRouter(client: Client): Router {
+export default function createResourcesRouter(
+    client: Client,
+    io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+): Router {
     const router = express.Router();
 
     const hook = new Webhook(
@@ -59,7 +64,9 @@ export default function createResourcesRouter(client: Client): Router {
                 reason,
                 author_name,
             ];
+
             const response = await client.query(text, values);
+            io.emit("resource-add", response.rows[0]);
             res.status(200).json(response.rows);
 
             const embed = new MessageBuilder()
@@ -105,7 +112,12 @@ export default function createResourcesRouter(client: Client): Router {
 
             await client.query(deleteTagsQuery, deleteTagsValues);
             await client.query(deleteFavouritesQuery, deleteFavouritesValues);
-            await client.query(deleteResourcesQuery, deleteResourcesValues);
+            const response = await client.query(
+                deleteResourcesQuery,
+                deleteResourcesValues
+            );
+
+            io.emit("resource-delete", response.rows[0]);
 
             res.status(200).json({
                 message: "Resource and related data deleted successfully",

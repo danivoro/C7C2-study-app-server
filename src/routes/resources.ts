@@ -45,31 +45,31 @@ export default function createResourcesRouter(client: Client): Router {
                 return res.status(400).json({
                     error: "Resource with the same URL already exists",
                 });
+            } else {
+                const text =
+                    "INSERT INTO resources(name, url, description, content_type, stage, user_id, recommendation_type, reason, author) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
+                const values = [
+                    resource_name,
+                    url,
+                    description,
+                    content_type,
+                    stage,
+                    user_id,
+                    recommendation_type,
+                    reason,
+                    author_name,
+                ];
+                const response = await client.query(text, values);
+                res.status(200).json(response.rows);
+
+                const embed = new MessageBuilder()
+                    .setTitle("New Resource Added: " + resource_name)
+                    .setColor(0x00ffff)
+                    .setAuthor(author_name)
+                    .setDescription(`${description} ${url}`);
+
+                hook.send(embed);
             }
-
-            const text =
-                "INSERT INTO resources(name, url, description, content_type, stage, user_id, recommendation_type, reason, author) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
-            const values = [
-                resource_name,
-                url,
-                description,
-                content_type,
-                stage,
-                user_id,
-                recommendation_type,
-                reason,
-                author_name,
-            ];
-            const response = await client.query(text, values);
-            res.status(200).json(response.rows);
-
-            const embed = new MessageBuilder()
-                .setTitle("New Resource Added: " + resource_name)
-                .setColor(0x00ffff)
-                .setAuthor(author_name)
-                .setDescription(`${description} ${url}`);
-
-            hook.send(embed);
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: "Internal server error" });

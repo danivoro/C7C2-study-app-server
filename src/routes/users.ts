@@ -5,7 +5,7 @@ import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 export default function createUsersRouter(
     client: Client,
-    io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+    io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>
 ): Router {
     const router = express.Router();
 

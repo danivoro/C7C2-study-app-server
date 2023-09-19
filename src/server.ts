@@ -15,7 +15,7 @@ const app = express();
 //set up socket.io - boilerplate (same each time)
 
 import { Server } from "socket.io";
-const http = require("http");
+import * as http from "http";
 const overallServer = http.createServer(app);
 const io = new Server(overallServer, {
     cors: {

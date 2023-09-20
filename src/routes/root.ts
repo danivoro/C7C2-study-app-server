@@ -54,8 +54,7 @@ export default function createRootRouter(client: Client): Router {
     });
 
     router.get("/health-check", async (_req, res) => {
-        await client.query("select now()");
-        res.status(200).send("system ok");
+        res.json({ msg: "system ok" });
     });
 
     return router;

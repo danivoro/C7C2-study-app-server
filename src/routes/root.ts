@@ -1,8 +1,7 @@
 import express, { Router } from "express";
-import { Client } from "pg";
 import axios from "axios";
 
-export default function createRootRouter(client: Client): Router {
+export default function createRootRouter(): Router {
     const router = express.Router();
 
     // Perform the self-request

@@ -37,7 +37,7 @@ app.use(morgan("common"));
 app.use(express.json()); //add JSON body parser to each following route handler
 app.use(cors()); //add CORS support to each following route handler
 
-app.use("/", createRootRouter(client));
+app.use("/", createRootRouter());
 app.use("/users", createUsersRouter(client, io));
 app.use("/resources", createResourcesRouter(client, io));
 app.use("/favourites", createFavouritesRouter(client));

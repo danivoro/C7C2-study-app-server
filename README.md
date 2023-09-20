@@ -1,56 +1,53 @@
-# mark-fullstack-proj--starter-1
+# Study Resource Catalog - Backend App
 
-## Usage:
+## About Study Resource Catalog
 
-Instead of cloning this project, click "Use this template". This will allow you to create a repo on github which has this project's content but which is not a fork of it.
+📚 **Share and Share Alike**: Ever found an epic study resource that you wish you could share with your friends? Here, you can! Share your treasure troves of knowledge with your friends and fellow learners.
 
-Make sure you create the repo as being owned by your own account not by the WeAreAcademy organisation.
+🔍 **Tags**: We're all about organisation. Tag resources with topics, so you can find that perfect resource in a breeze.
 
-## Install
+📝 **To-Study List**: No more losing track of what you want to study next. Add resources to your to-study list, and we'll keep them in order for you.
 
-`yarn`
+[Deployed Front-End](https://study-resource-catalog-app.netlify.app/)\
+[Deployed Back-End](https://c7c2-study-app.onrender.com/)
 
-## DB Setup
+## Installation
 
-Copy .env.example to .env and set `DATABASE_URL`, `LOCAL_DATABASE_URL` and `PORT` to your liking.
+To begin, install all required packages with the following command:
+
+    yarn
+
+## Database setup
+
+You can recreate our database by running the queries in `database.sql` file.
+
+## Running locally
+
+To launch a local server listening for HTTP requests on port 4000, use the following command:
+
+    yarn start:dev
+
+The server will then use the local database url, which is set in the env var `LOCAL_DATABASE_URL`
+
+If you want to run a server against a remote db, please use the following command:
+
+    yarn start:dev-with-remote-db
+
+The server will then use the remote database url, which is set in the env var `DATABASE_URL`
+
+## Environment Variables
+
+When running or deploying the project, remember to include those environment variables:\
+`DATABASE_URL`, which should be set to the URL of your remote db\
+`LOCAL_DATABASE_URL`, which should be set to the URL of your local db\
+`PORT`, which should be set to the port to your liking
 
 e.g.
 
 ```
 DATABASE_URL=postgres://someuser:somebigsecretpassword@somedbhost/pastebin
-LOCAL_DATABASE_URL=postgres://neill@localhost/pastebin
+LOCAL_DATABASE_URL=postgres://user@localhost/project
 PORT=4000
 ```
 
-You will need to create your own databases for this project - certainly one remotely and ideally one locally, too, for development and testing.
-
-Hosts for postgres with a free offering include:
-
--   https://render.com
--   https://www.elephantsql.com/
--   https://supabase.com/
-
-## Running locally
-
-`yarn start:dev`
-
-The env var LOCAL_DATABASE_URL will be consulted.
-
-## Running locally against a remote db
-
-`yarn start:dev-with-remote-db`
-
-The env var DATABASE_URL will be consulted.
-
-# Deploying to render.com
-
-To deploy to render.com:
-
--   build command should be `yarn && yarn build`
-
-## Running on render.com
-
-After deployment, render.com should be set up to run either `yarn start` or
-`node dist/server.js`
-
-The env var DATABASE_URL will be consulted and so must be set on render.com prior to application start.
+You can do it in `.env` file or in the settings of your deployed app.

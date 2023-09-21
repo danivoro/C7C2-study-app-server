@@ -131,6 +131,22 @@ export default function createResourcesRouter(
     router.put("/:id", async (req, res) => {
         try {
             const { id } = req.params;
+            const { name, description, reason, author } = req.body;
+
+            const text =
+                "UPDATE resources SET name = $1, description = $2, reason = $3, author = $4 WHERE resource_id = $5 RETURNING *";
+            const values = [name, description, reason, author, id];
+
+            await client.query(text, values);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    });
+
+    router.put("/likes/:id", async (req, res) => {
+        try {
+            const { id } = req.params;
             const { action } = req.body;
 
             if (action === "like") {

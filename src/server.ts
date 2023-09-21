@@ -17,6 +17,7 @@ const app = express();
 import { Server } from "socket.io";
 import * as http from "http";
 import { configureServerActions } from "./configureServerActions";
+import createCommentsRouter from "./routes/comments";
 const overallServer = http.createServer(app);
 const io = new Server(overallServer, {
     cors: {
@@ -40,6 +41,7 @@ app.use(cors()); //add CORS support to each following route handler
 app.use("/", createRootRouter());
 app.use("/users", createUsersRouter(client, io));
 app.use("/resources", createResourcesRouter(client, io));
+app.use("/comments", createCommentsRouter(client, io));
 app.use("/favourites", createFavouritesRouter(client));
 app.use("/tags", createTagsRouter(client));
 

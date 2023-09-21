@@ -42,11 +42,33 @@ export default function createRootRouter(): Router {
         }
     };
 
+    // Perform a request to the Fallback API
+    const requestToFallbackApi = async () => {
+        try {
+            const response = await axios.get(
+                "https://fallback-image-api.onrender.com//health-check"
+            );
+            if (response.status === 200) {
+                console.log("Request to fallback successful");
+            } else {
+                console.error(
+                    "Request to fallback api failed with status code",
+                    response.status
+                );
+            }
+        } catch (error) {
+            console.error("Request to fallback api failed with error", error);
+        }
+    };
+
     const selfRequestInterval = setInterval(selfRequest, 600000);
     selfRequestInterval;
 
     const requestToImageApiInterval = setInterval(requestToImageApi, 600000);
     requestToImageApiInterval;
+
+    const requestFallbackInterval = setInterval(requestToFallbackApi, 600000);
+    requestFallbackInterval;
 
     router.get("/", async (_req, res) => {
         res.json({ msg: "Hello! There's nothing interesting for GET /" });

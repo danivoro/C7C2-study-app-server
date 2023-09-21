@@ -136,8 +136,9 @@ export default function createResourcesRouter(
             const text =
                 "UPDATE resources SET name = $1, description = $2, reason = $3, author = $4 WHERE resource_id = $5 RETURNING *";
             const values = [name, description, reason, author, id];
+            const response = await client.query(text, values);
 
-            await client.query(text, values);
+            res.status(200).json(response.rows);
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: "Internal server error" });
